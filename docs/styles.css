@@ -187,13 +187,14 @@ h3 {
 /* ---- Hero -------------------------------------------------------------- */
 .hero {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.75rem;
     margin-top: 0.5rem;
 }
 
 .avatar {
     position: relative;
+    margin-top: 0.3rem;
     width: 116px;
     height: 116px;
     flex-shrink: 0;
