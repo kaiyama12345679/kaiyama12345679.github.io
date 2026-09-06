@@ -202,8 +202,14 @@ h3 {
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
 }
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 .avatar .monogram {
-    display: flex;
+    display: none;
     width: 100%;
     height: 100%;
     align-items: center;
@@ -214,6 +220,7 @@ h3 {
     color: #fff;
     background: linear-gradient(135deg, var(--accent), #7048c9);
 }
+.avatar.no-photo .monogram { display: flex; }
 
 .hero-body h1 {
     font-size: 1.9rem;
