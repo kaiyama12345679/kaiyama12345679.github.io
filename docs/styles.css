@@ -1,50 +1,482 @@
-/* ここにスタイルを追加 */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f4f4f4;
-}
-.container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-}
-header {
-    background: #333;
-    color: #fff;
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: #0779e4 3px solid;
-}
-header h1 {
-    float: left;
-    margin: 0;
-}
-nav {
-    float: right;
-    margin-top: 10px;
-}
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 5px 20px;
-    font-size: 18px;
-}
-.intro {
-    padding: 15px;
-    color: #555;
-}
-.intro h1 {
-    text-align: center;
-}
-.skills, .projects, .contact {
-    padding: 15px;
-    color: #555;
+/* ==========================================================================
+   Kai Yamashita — personal academic site
+   ========================================================================== */
+
+:root {
+    --bg: #fcfcfd;
+    --bg-elevated: #ffffff;
+    --text: #1c2333;
+    --text-muted: #5b6478;
+    --accent: #3b5bdb;
+    --accent-soft: rgba(59, 91, 219, 0.09);
+    --border: #e5e8ef;
+    --chip-bg: #eef1f6;
+    --award-bg: #fff7e0;
+    --award-text: #8a6100;
+    --award-border: #f0dfa8;
+    --shadow: 0 1px 3px rgba(20, 28, 48, 0.06);
+    --header-bg: rgba(252, 252, 253, 0.85);
 }
 
-iframe {
-  width: 100%; /* 任意の横幅を指定 */
-  height: auto;
-  aspect-ratio: 16/9;
+html[data-theme="dark"] {
+    --bg: #12141c;
+    --bg-elevated: #1a1e29;
+    --text: #e6e9f0;
+    --text-muted: #9aa3b8;
+    --accent: #7d97f4;
+    --accent-soft: rgba(125, 151, 244, 0.14);
+    --border: #2a3040;
+    --chip-bg: #232936;
+    --award-bg: #2d2717;
+    --award-text: #e5c675;
+    --award-border: #4a3f22;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --header-bg: rgba(18, 20, 28, 0.85);
+}
+
+/* ---- Language toggle: hide the inactive language --------------------- */
+html.ja .en { display: none !important; }
+html.en .ja { display: none !important; }
+
+/* ---- Theme toggle icons ---------------------------------------------- */
+html[data-theme="light"] .icon-sun { display: none; }
+html[data-theme="dark"] .icon-moon { display: none; }
+
+/* ---- Base ------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-size: 0.92em;
+    background: var(--chip-bg);
+    border-radius: 6px;
+    padding: 0.15em 0.5em;
+}
+
+/* ---- Header ------------------------------------------------------------ */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--header-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0.65rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.brand {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    white-space: nowrap;
+}
+.brand:hover { text-decoration: none; color: var(--accent); }
+
+.site-nav {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+}
+.site-nav::-webkit-scrollbar { display: none; }
+
+.site-nav a {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+.site-nav a:hover {
+    color: var(--accent);
+    background: var(--accent-soft);
+    text-decoration: none;
+}
+
+.header-actions { display: flex; gap: 0.4rem; }
+
+.pill-btn {
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.pill-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+.icon-btn { padding: 0.3rem 0.55rem; }
+.icon-btn svg { display: block; }
+
+/* ---- Layout ------------------------------------------------------------ */
+main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 3rem;
+}
+
+.section { margin-top: 3rem; }
+
+h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 2.4rem;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 1.8rem 0 0.8rem;
+}
+
+/* ---- Hero -------------------------------------------------------------- */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    margin-top: 0.5rem;
+}
+
+.avatar {
+    position: relative;
+    width: 116px;
+    height: 116px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+.avatar .monogram {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent), #7048c9);
+}
+
+.hero-body h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin: 0 0 0.2rem;
+    line-height: 1.3;
+}
+.hero-sub {
+    display: inline-block;
+    margin-left: 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.role {
+    margin: 0 0 0.15rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.98rem;
+}
+
+.affiliation {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.social-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.9rem 0 0;
+    padding: 0;
+}
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    background: var(--bg-elevated);
+    transition: color 0.15s, border-color 0.15s;
+}
+.social-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    text-decoration: none;
+}
+
+/* ---- About ------------------------------------------------------------- */
+.lede { margin: 0 0 1.1rem; }
+
+.chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+}
+.chips li {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 0.22rem 0.75rem;
+}
+
+/* ---- News -------------------------------------------------------------- */
+.news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.news-list li {
+    display: flex;
+    gap: 1.1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border);
+}
+.news-list li:last-child { border-bottom: none; }
+
+.news-date {
+    flex-shrink: 0;
+    width: 4.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
+}
+.news-text { font-size: 0.94rem; }
+
+/* ---- Publications ------------------------------------------------------ */
+.pub-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.pub {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.95rem 1.15rem;
+    box-shadow: var(--shadow);
+}
+
+.pub-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 6px;
+    padding: 0.1rem 0.5rem;
+}
+.tag-journal { color: var(--accent); background: var(--accent-soft); }
+.tag-conf { color: #0d8a6a; background: rgba(13, 138, 106, 0.1); }
+html[data-theme="dark"] .tag-conf { color: #5fd3b3; background: rgba(95, 211, 179, 0.12); }
+.tag-article { color: #b3560e; background: rgba(179, 86, 14, 0.1); }
+html[data-theme="dark"] .tag-article { color: #eda05f; background: rgba(237, 160, 95, 0.12); }
+.tag-award {
+    color: var(--award-text);
+    background: var(--award-bg);
+    border: 1px solid var(--award-border);
+}
+
+.pub-year {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.pub-title {
+    margin: 0 0 0.15rem;
+    font-weight: 600;
+    font-size: 0.98rem;
+    line-height: 1.55;
+}
+.pub-authors {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+.pub-authors strong { color: var(--text); }
+.pub-venue {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* ---- Timeline (Experience / Education) --------------------------------- */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.timeline li {
+    position: relative;
+    display: flex;
+    gap: 1.4rem;
+    padding: 0 0 1.5rem 1.4rem;
+    border-left: 2px solid var(--border);
+    margin-left: 0.35rem;
+}
+.timeline li:last-child { padding-bottom: 0.25rem; }
+.timeline li::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 0.45rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+}
+
+.tl-period {
+    flex-shrink: 0;
+    width: 10.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.15rem;
+}
+.tl-body { min-width: 0; }
+.tl-title {
+    margin: 0 0 0.1rem;
+    font-weight: 600;
+    font-size: 0.96rem;
+    line-height: 1.55;
+}
+.tl-desc {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* ---- Skills ------------------------------------------------------------ */
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+.skills-label { margin-top: 0; }
+
+/* ---- Contact / Footer -------------------------------------------------- */
+.contact-line { margin: 0; }
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+}
+.site-footer p {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1.4rem 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+/* ---- Responsive -------------------------------------------------------- */
+@media (max-width: 640px) {
+    .header-inner { flex-wrap: wrap; padding: 0.55rem 1rem; }
+    .site-nav { order: 3; flex-basis: 100%; }
+    .brand { flex: 1; }
+
+    .hero { flex-direction: column; align-items: flex-start; gap: 1.1rem; }
+    .hero-body h1 { font-size: 1.6rem; }
+    .hero-sub { display: block; margin-left: 0; }
+
+    .timeline li { flex-direction: column; gap: 0.1rem; }
+    .tl-period { width: auto; padding-top: 0; }
+
+    .skills-grid { grid-template-columns: 1fr; }
+
+    .news-list li { gap: 0.8rem; }
+}
+
+/* ---- Print ------------------------------------------------------------- */
+@media print {
+    .site-header, .header-actions { display: none; }
+    body { background: #fff; color: #000; }
+    .pub { box-shadow: none; }
 }
