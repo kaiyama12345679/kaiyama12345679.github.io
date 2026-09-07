@@ -357,6 +357,8 @@ h3 {
     padding: 0.1rem 0.5rem;
 }
 .tag-journal { color: var(--accent); background: var(--accent-soft); }
+.tag-preprint { color: #9333b8; background: rgba(147, 51, 184, 0.1); }
+html[data-theme="dark"] .tag-preprint { color: #cf8ee8; background: rgba(207, 142, 232, 0.12); }
 .tag-conf { color: #0d8a6a; background: rgba(13, 138, 106, 0.1); }
 html[data-theme="dark"] .tag-conf { color: #5fd3b3; background: rgba(95, 211, 179, 0.12); }
 .tag-article { color: #b3560e; background: rgba(179, 86, 14, 0.1); }
